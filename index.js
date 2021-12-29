@@ -1,4 +1,10 @@
 const taskContainer = document.querySelector(".task-list-container");
+const defaultImageURL = "https://media.istockphoto.com/photos/door-in-forest-picture-id545817618?b=1&k=20&m=545817618&s=170667a&w=0&h=hGwcNlFfpHU5GzwzzPx0IaglEGVmkw5f9caitNHU26k=";
+const defaultFlair = "Routine";
+const defaultTitle = "Chores";
+const defaultFlairType = "btn-outline-info";
+const defaultTaskDescription = "Here I have written the chores I have to do in my house.";
+
 let globalStore = [];
 
 const updateLocalStorage = () => {
@@ -17,15 +23,15 @@ const createListCard = ({
 }) => {
   if(!id) id = Date.now();
 
-  if (!imageURL) imageURL = "https://media.istockphoto.com/photos/door-in-forest-picture-id545817618?b=1&k=20&m=545817618&s=170667a&w=0&h=hGwcNlFfpHU5GzwzzPx0IaglEGVmkw5f9caitNHU26k=";
+  if (!imageURL) imageURL = defaultImageURL;
 
-  if (!taskListTitle) taskListTitle = "Chores";
+  if (!taskListTitle) taskListTitle = defaultTitle;
 
-  if (!taskListFlair) taskListFlair = "Routine";
+  if (!taskListFlair) taskListFlair = defaultFlair;
 
-  if (!taskListFlairType) taskListFlairType = "btn-outline-info";
+  if (!taskListFlairType) taskListFlairType = defaultFlairType;
 
-  if (!taskListDescription) taskListDescription = "Here I have written the chores I have to do in my house.";
+  if (!taskListDescription) taskListDescription = defaultTaskDescription;
 
     return `<div id="${id}" class="col-lg-3 col-md-4">
         <div class="card mx-3 my-3" style="width: 18rem">
@@ -201,8 +207,10 @@ const filteredFlairSearch = (event) => {
   event = window.event;
   let filter = event.target.innerHTML.trim();
 
-  let filteredResults = globalStore.filter((card) => card.taskListFlair === filter);
-  console.log(filteredResults);
+  let filteredResults = globalStore.filter((card) => {
+    if (card.taskListFlair === "") card.taskListFlair = defaultFlair;
+    return card.taskListFlair === filter;
+  });
 
   // remove data currently in the page
   taskContainer.innerHTML = "";
