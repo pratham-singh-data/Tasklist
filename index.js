@@ -36,7 +36,7 @@ const createListCard = ({
             <h5>${taskListTitle}</h5>
             <p class="card-text">${taskListDescription}</p>
 
-            <button type="button" class="btn ${taskListFlairType} rounded-pill">
+            <button type="button" class="btn ${taskListFlairType} rounded-pill" onclick="filteredFlairSearch(this, arguments)">
               ${taskListFlair}
             </button>
           </div>
@@ -195,4 +195,21 @@ const updateTaskList = () => {
   updationModal.querySelector("#taskListID").innerHTML = "";
 
   location.reload();
+};
+
+const filteredFlairSearch = (event) => {
+  event = window.event;
+  let filter = event.target.innerHTML.trim();
+
+  let filteredResults = globalStore.filter((card) => card.taskListFlair === filter);
+  console.log(filteredResults);
+
+  // remove data currently in the page
+  taskContainer.innerHTML = "";
+
+  // insert the results in page
+  filteredResults.forEach((results) => {
+    let newCard = createListCard(results);
+    taskContainer.insertAdjacentHTML("beforeend", newCard);
+  });
 };
