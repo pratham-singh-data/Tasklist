@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tasklist</title>
+    <!-- font awesome CDN -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
+
+    <!-- bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+
+    <!-- Personnal CSS -->
+    <link href="index.css" rel="stylesheet" />
+  </head>
+
+  <body onload="loadPage()">
+    <!-- Add new list Modal  -->
+    <div
+      class="modal fade"
+      id="addNewModal"
+      tabindex="-1"
+      aria-labelledby="addNewModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success bg-gradient modal-titlebar">
+            <h5 class="modal-title" id="addNewModalLabel">Add New Task List</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="taskListImageURL" class="form-label"
+                >Enter Display Image URL</label
+              >
+              <input
+                type="url"
+                class="form-control"
+                id="taskListImageURL"
+                placeholder="https://image.ext"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="taskListTitle" class="form-label"
+                >Enter List Title</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="taskListTitle"
+                placeholder="Chores"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="taskListFlair" class="form-label">Enter Flair</label>
+              <div class="d-flex">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskListFlair"
+                  placeholder="Routine"
+                />
+
+                <select class="form-select" id="taskListFlairType" aria-label="Default select example">
+                    <option value="btn-outline-info" selected>Aqua</option>
+                  <option value="btn-outline-primary">Blue</option>
+                  <option value="btn-outline-danger">Red</option>
+                  <option value="btn-outline-warning">Yellow</option>
+                  <option value="btn-outline-success">Green</option>
+                  <option value="btn-outline-dark">Black</option>
+                  <option value="btn-outline-secondary">Gray</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="taskListDescription" class="form-label"
+                >Enter Task List Description</label
+              >
+              <textarea
+                class="form-control"
+                id="taskListDescription"
+                rows="3"
+                placeholder="Here I have written the chores I have to do in my house."
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-around">
+            <button type="button" class="btn btn-success bg-gradient" onclick="addTaskList()" data-bs-dismiss="modal">
+              <em class="fas fa-plus"></em>
+              Add Task List
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-danger bg-gradient"
+              data-bs-dismiss="modal"
+            >
+              <em class="fas fa-times"></em>
+              Discard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- update tasklist modal -->
+    <div
+      class="modal fade"
+      id="updateModal"
+      tabindex="-1"
+      aria-labelledby="updateModalLabel"
+      aria-hidden="true"
+      callerid=""
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success bg-gradient modal-titlebar">
+            <h5 class="modal-title" id="updateModalLabel">Edit Task List</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+                <label id="taskListID" class="form-label" hidden aria-hidden
+                ></label
+              >
+              <label for="taskListImageURL" class="form-label"
+                >Display Image URL</label
+              >
+              <input
+                type="url"
+                class="form-control"
+                id="taskListImageURL"
+                placeholder="https://image.ext"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="taskListTitle" class="form-label"
+                >List Title</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="taskListTitle"
+                placeholder="Chores"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="taskListFlair" class="form-label">Flair</label>
+              <div class="d-flex">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="taskListFlair"
+                  placeholder="Routine"
+                />
+
+                <select class="form-select" id="taskListFlairType" aria-label="Default select example">
+                    <option value="btn-outline-info" selected>Aqua</option>
+                  <option value="btn-outline-primary">Blue</option>
+                  <option value="btn-outline-danger">Red</option>
+                  <option value="btn-outline-warning">Yellow</option>
+                  <option value="btn-outline-success">Green</option>
+                  <option value="btn-outline-dark">Black</option>
+                  <option value="btn-outline-secondary">Gray</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="taskListDescription" class="form-label"
+                >Task List Description</label
+              >
+              <textarea
+                class="form-control"
+                id="taskListDescription"
+                rows="3"
+                placeholder="Here I have written the chores I have to do in my house."
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer d-flex justify-content-around">
+            <button type="button" class="btn btn-success bg-gradient" onclick="updateTaskList()" data-bs-dismiss="modal">
+              <em class="far fa-save"></em>
+              Save Changes
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-danger bg-gradient"
+              data-bs-dismiss="modal"
+            >
+              <em class="fas fa-times"></em>
+              Discard
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+
+          <button
+            type="button"
+            class="btn btn-success mx-2 bg-gradient my-1"
+            data-bs-toggle="modal"
+            data-bs-target="#addNewModal"
+          >
+            <em class="fas fa-plus"></em>
+            Add List
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="tasklist-content row mx-1 task-list-container">
+    </div>
+
+    <!-- bootstrap script with popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Personnal Javascript  -->
+    <script src="index.js"></script>
+  </body>
+</html>
