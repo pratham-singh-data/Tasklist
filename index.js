@@ -49,6 +49,7 @@ const createListCard = ({
 
           <div class="card-footer">
             <div class="footer-buttons d-flex justify-content-around mt-3">
+            <a href="Pages/Tasks/Tasks.html?id=${id}">
               <button
                 button
                 type="button"
@@ -67,6 +68,7 @@ const createListCard = ({
                 >
                 </em>
               </button>
+              </a>
               <button
                 button
                 type="button"
