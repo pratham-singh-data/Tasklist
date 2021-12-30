@@ -1,8 +1,7 @@
-let titleName;
-let id;
+let parent;
 
 const modifyNavbar = () => {
-    id = parent.document.URL.substring(parent.document.URL.indexOf('?') + 4, parent.document.URL.length);
+    let id = document.URL.substring(document.URL.indexOf('?') + 4, document.URL.length);
 
     // document.querySelector("#navbarListName").innerHTML = id;
 
@@ -10,6 +9,7 @@ const modifyNavbar = () => {
 
     lists.forEach((list) => {
         if(list.id == id){
+            parent = list;
             titleName = list.taskListTitle;
             document.querySelector("#navbarListName").innerHTML = list.taskListTitle;
             return;
@@ -18,21 +18,14 @@ const modifyNavbar = () => {
 };
 
 const showTaskLists = () => {
-    document.querySelector("#taskListModal").querySelector("#taskListModalLabel").innerHTML = titleName;
+    document.querySelector("#taskListModal").querySelector("#taskListModalLabel").innerHTML = parent.taskListTitle;
     
-    let lists = JSON.parse(localStorage.taskList).tasklists;
-
-    lists.forEach((list) => {
-        if (list.id == id) {
-            let image = `<img src = "${list.imageURL}"
+    let content = `<img src = "${parent.imageURL}"
             class = "card-img-top"
             alt = "parent image"/>
 
-            <p>${list.taskListDescription}</p>
+            <p>${parent.taskListDescription}</p>
             `;
 
-            document.querySelector("#parentTaskListImage").innerHTML = image;
-            return;
-        }
-    });
+    document.querySelector("#parentTaskListImage").innerHTML = content;
 };
