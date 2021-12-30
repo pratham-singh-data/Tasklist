@@ -3,8 +3,6 @@ let parent;
 const modifyNavbar = () => {
     let id = document.URL.substring(document.URL.indexOf('?') + 4, document.URL.length);
 
-    // document.querySelector("#navbarListName").innerHTML = id;
-
     let lists = JSON.parse(localStorage.taskList).tasklists;
 
     lists.forEach((list) => {
